@@ -1,0 +1,49 @@
+.gomoku {
+	position: relative;
+	width: 450px;
+	height: 450px;
+	margin: 50px auto;
+	.gomoku-piece {
+		float: left;
+		width: 30px;
+		height: 30px;
+		display: inline-block;
+		box-sizing: border-box;
+	}
+	.gomoku-black {
+		background: #000;
+		border-radius: 50%;
+		border: 1px solid #fff
+	}
+	.gomoku-white {
+		background: #fff;
+		border-radius: 50%;
+		border: 1px solid #000
+	}
+	.gomoku-pieces {
+		width: inherit;
+		height: inherit;
+		position: absolute;
+		z-index: 10;
+	}
+	.gomoku-back {
+		.gomoku-box {
+			float: left;
+			border-right: 1px solid #333;
+			border-bottom: 1px solid #333;
+			width: 30px;
+			height: 30px;
+			display: inline-block;
+			box-sizing: border-box;
+		}
+		z-index: 1;
+		top: 15px;
+    left: 15px;
+		border: 2px solid #333;
+		position: absolute;
+		width: 420px;
+		height: 420px;
+		background: rgba(23,1,3,0.2);
+		box-shadow: 4px 3px 5px #ccc;
+	}
+}
