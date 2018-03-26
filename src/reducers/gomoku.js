@@ -1,6 +1,5 @@
 import Immutable from 'immutable';
 import { PUSH_GOMOKU, GOMOKU_RESTORE } from '../constants/actionTypes'
-import index from '../components/BtnControls';
 
 const createData = () => {
   let gomoku = [], boxs = []

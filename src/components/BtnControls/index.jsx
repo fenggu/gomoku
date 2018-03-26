@@ -25,7 +25,9 @@ export default class BtnControls extends Component {
     if (index < size - 1) {
       this.props.actions.changeGoMokuIndex(this.props.index + 1)
     }
-    if (this.props.win.size === size) {
+    console.log(index)
+    console.log(size)
+    if (this.props.win.size === size && index + 1 === size - 1 ) {
       this.props.actions.changeWin(({
         role: (this.props.index) % 2 === 0 ? 2 : 1,
         size: this.props.size
