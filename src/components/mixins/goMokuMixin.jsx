@@ -6,10 +6,9 @@ export default (ComposedComponent) => {
   /* Redux bind */
   function mapStateToProps (state) {
     let index = state.get('index')
-    let gomoku = state.get('gomoku').get(index).toJS()
     return {
       index: index,
-      gomoku: gomoku,
+      gomoku: state.get('gomoku').get(index),
       win: state.get('win'),
       size: state.get('gomoku').size
     };
@@ -65,7 +64,7 @@ export default (ComposedComponent) => {
             if ((x + constantX * i) >= 15 || (x + constantX * i) < 0 || (y + constantY * i) >= 15 || (y + constantY * i) < 0) {
               break;
             }
-            if (pieces[x + constantX * i][y + constantY * i] !== isCurrent) {
+            if (pieces.get(x + constantX * i).get(y + constantY * i) !== isCurrent) {
               break;
             }
             sum[co].count++

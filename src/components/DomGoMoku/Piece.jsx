@@ -8,7 +8,7 @@ import * as goMokuAction from '../../actions/gomoku'
 /* Redux bind */
 function mapStateToProps (state) {
   let index = state.get('index')
-  let gomoku = state.get('gomoku').get(index).toJS()
+  let gomoku = state.get('gomoku').get(index)
   return {
     index: index,
     gomoku: gomoku,
@@ -25,7 +25,7 @@ export default class Piece extends Component {
   componentWillReceiveProps (nextProps) {
     let x = this.props.x
     let y = this.props.y
-    if (nextProps.gomoku[x][y] == this.props.gomoku[x][y]) {
+    if (nextProps.gomoku.get(x).get(y) == this.props.gomoku.get(x).get(y)) {
       return false
     }
   }
@@ -34,10 +34,9 @@ export default class Piece extends Component {
     // 黑: 2, 白: 1, 空: 0
     let x = this.props.x
     let y = this.props.y
-    let newGoMoku = this.props.gomoku
-    if (newGoMoku[x][y] !== 0 || this.props.win.role !== 0) return
+    if ( this.props.gomoku.get(x).get(y) !== 0 || this.props.win.role !== 0) return
     let isCurrent = this.props.index % 2 === 0 ? 2 : 1
-    newGoMoku[x][y] = isCurrent
+    let newGoMoku = this.props.gomoku.setIn([x, y], isCurrent)
     this.props.actions.pushGoMoku(newGoMoku, this.props.index + 1)
     this.props.actions.changeGoMokuIndex(this.props.index + 1)
     this.props.isWin(x, y, isCurrent)
@@ -45,7 +44,7 @@ export default class Piece extends Component {
 
   render() {
     let clsName = 'gomoku-piece '
-    let color = this.props.gomoku[this.props.x][this.props.y]
+    let color = this.props.gomoku.get(this.props.x).get(this.props.y)
     if (color === 1) {
       clsName += 'gomoku-white'
     }

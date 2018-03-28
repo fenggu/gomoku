@@ -7,10 +7,9 @@ import * as goMokuAction from '../../actions/gomoku'
 /* Redux bind */
 function mapStateToProps (state) {
   let index = state.get('index')
-  let gomoku = state.get('gomoku').get(index).toJS()
   return {
     index: index,
-    gomoku: gomoku,
+    gomoku: state.get('gomoku').get(index),
     win: state.get('win')
   };
 }
@@ -31,10 +30,9 @@ export default class CanvasGoMoku extends Component {
     let y = Math.floor((e.pageX - e.target.offsetLeft) / 30)
     let x = Math.floor((e.pageY - e.target.offsetTop) / 30)
     // 黑: 2, 白: 1, 空: 0
-    let newGoMoku = this.props.gomoku
-    if (newGoMoku[x][y] !== 0 || this.props.win.role !== 0) return
+    if (this.props.gomoku.get(x).get(y) !== 0 || this.props.win.role !== 0) return
     let isCurrent = this.props.index % 2 === 0 ? 2 : 1
-    newGoMoku[x][y] = isCurrent
+    let newGoMoku = this.props.gomoku.setIn([x, y], isCurrent)
     this.props.actions.pushGoMoku(newGoMoku, this.props.index + 1)
     this.props.actions.changeGoMokuIndex(this.props.index + 1)
     this.props.isWin(x, y, isCurrent)
@@ -57,14 +55,14 @@ export default class CanvasGoMoku extends Component {
         ctx.lineTo(30 * i + 15, 435)
         ctx.stroke()
       }
-      for (let x = 0; x < gomoku.length; x ++) {
-        for (let y = 0; y < gomoku[x].length; y++) {
-          if (gomoku[x][y] !== 0) {
+      for (let x = 0; x < gomoku.size; x ++) {
+        for (let y = 0; y < gomoku.get(x).size; y++) {
+          if (gomoku.get(x).get(y) !== 0) {
             ctx.beginPath()
-            ctx.fillStyle = gomoku[x][y] === 1 ? '#fff' : '#000'
+            ctx.fillStyle = gomoku.get(x).get(y) === 1 ? '#fff' : '#000'
             ctx.arc(15 + y * 30, 15 + x * 30, 15, 0, Math.PI*2, true)
             ctx.fill()
-            ctx.fillStyle = gomoku[x][y] === 1 ? '#000' : '#fff'
+            ctx.fillStyle = gomoku.get(x).get(y) === 1 ? '#000' : '#fff'
             ctx.arc(15 + y * 30, 15 + x * 30, 15, 0, Math.PI*2, true)
             ctx.stroke()
             ctx.closePath();
